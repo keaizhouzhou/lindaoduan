@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>通讯录</title>
+		<link rel="stylesheet" type="text/css" href="../css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="../css/tongxunlu.css" />
+	</head>
+
+	<body>
+		<header class="fixed">
+			<div class="iconfont icon-zuobian"></div>
+			<p>部门通讯录</p>
+		</header>
+		<div id="search" class="flexRow fixed">
+
+				<i class="iconfont icon-search"></i>
+				<input type="" name="" id="" value="" placeholder="请输入关键字" />
+				<p>搜索</p>
+			</div>
+		<div id="container">
+			
+			<div id="address-list">
+				<div class="list flexRow">
+					<h2>A</h2>
+					<ul>
+						<li class="flexRow">
+							<a>全</a>
+							<h3>安庆</h3>
+							<p>联合秘书长</p>
+						</li>
+						<li class="flexRow">
+							<a>全</a>
+							<h3>安庆</h3>
+							<p>联合秘书长</p>
+						</li>
+						<li class="flexRow">
+							<a>全</a>
+							<h3>安庆</h3>
+							<p>联合秘书长</p>
+						</li>
+					</ul>
+				</div>
+				<div class="list flexRow">
+					<h2>B</h2>
+					<ul>
+						<li class="flexRow">
+							<a>波</a>
+							<h3>当时的</h3>
+							<p>联合秘书长</p>
+						</li>
+						<li class="flexRow">
+							<a>波</a>
+							<h3>都是</h3>
+							<p>联合秘书长</p>
+						</li>
+						<li class="flexRow">
+							<a>波</a>
+							<h3>是</h3>
+							<p>联合秘书长</p>
+						</li>
+					</ul>
+				</div>
+				<div class="list flexRow">
+					<h2>M</h2>
+					<ul>
+						<li class="flexRow">
+							<a>马</a>
+							<h3>当时的</h3>
+							<p>联合秘书长</p>
+						</li>
+						<li class="flexRow">
+							<a>马</a>
+							<h3>都是</h3>
+							<p>联合秘书长</p>
+						</li>
+						<li class="flexRow">
+							<a>马</a>
+							<h3>是</h3>
+							<p>联合秘书长</p>
+						</li>
+					</ul>
+				</div>			
+			</div>
+			<ul id='right-list'>
+			</ul>
+			<div id="dail-box">
+				<div id="phone-box">
+					<h2>拨打电话</h2>
+					<p>400-232939232</p>
+					<div class="flexRow">
+						<a id='cancle'>取消</a>
+						<a id="confirm">确认</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				let arr=['A','B','C','D','E','F','G','H','I','J','k','l','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
+				]
+				let colorArr=['red','orange','blue']
+				for(let i=0;i<arr.length;i++){
+					$('#right-list').append("<li>"+arr[i]+"</li>")
+				}
+				let listLenth=$('.list').length
+				for(let j=0;j<listLenth;j++){
+					let k=j%colorArr.length;
+					var thisList=$('.list')[k]
+					$(thisList).find('a').css('background',colorArr[k])
+				}
+			})
+			$('.list li').click(function() {
+				$('#dail-box').css({
+					'display': 'block'
+				})
+			})
+			$('#phone-box a').click(function() {
+				$('#dail-box').css({
+					'display': 'none'
+				})
+			})
+			
+		</script>
+	</body>
+
+</html>

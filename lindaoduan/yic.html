@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <title>异常</title>
+</head>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/bootstrap.css">
+<link rel="stylesheet" href="../css/yic.css">
+<body>
+<div class="title">
+    <span class="def" id="dcl">待处理</span>
+    <span id="dfc">已处理</span>
+    <span id="ywc">已复查</span>
+</div>
+<div class="content">
+    <ul class="detail" id="dcl_con">
+        <li onclick="fn()">
+            <p>灭火器</p>
+            <p>任务地点：西湖区骆家庄社区</p>
+            <p>位置：一区14幢1楼楼道</p>
+            <p>检查时间：2018-01-20  11:45:21</p>
+            <p>检查描述：用光了</p>
+            <p>检查人：张三</p>
+            <p>上报上级：李四</p>
+        </li>
+        <li onclick="fn()">
+            <p>灭火器</p>
+            <p>任务地点：西湖区骆家庄社区</p>
+            <p>位置：一区14幢1楼楼道</p>
+            <p>检查时间：2018-01-20  11:45:21</p>
+            <p>检查描述：用光了</p>
+            <p>检查人：张三</p>
+            <p>上报上级：李四</p>
+        </li>
+    </ul>
+    <ul class="detail" style="display: none" id="dfc_con">
+        <li onclick="fun()">
+            <p>灭火器</p>
+            <p>任务地点：西湖区骆家庄社区</p>
+            <p>位置：一区14幢1楼楼道</p>
+            <p>检查时间：2018-01-20  11:45:21</p>
+            <p>处理时间：2018-01-20  14:40:21</p>
+        </li>
+        <li  onclick="fun()">
+            <p>灭火器</p>
+            <p>任务地点：西湖区骆家庄社区</p>
+            <p>位置：一区14幢1楼楼道</p>
+            <p>检查时间：2018-01-20  11:45:21</p>
+            <p>处理时间：2018-01-20  14:40:21</p>
+        </li>
+    </ul>
+    <ul class="detail" style="display: none" id="ywc_con">
+        <li>
+            <p>灭火器</p>
+            <p>任务地点：西湖区骆家庄社区</p>
+            <p>位置：一区14幢1楼楼道</p>
+            <p>检查时间：2018-01-20  11:45:21</p>
+            <p>检查描述：用光了</p>
+            <p>检查人：张三</p>
+            <p>上报上级：李四</p>
+        </li>
+        <li>
+            <p>灭火器</p>
+            <p>任务地点：西湖区骆家庄社区</p>
+            <p>位置：一区14幢1楼楼道</p>
+            <p>检查时间：2018-01-20  11:45:21</p>
+            <p>检查描述：用光了</p>
+            <p>检查人：张三</p>
+            <p>上报上级：李四</p>
+        </li>
+    </ul>
+</div>
+<div class="foot clearfix">
+    <ul>
+        <li>
+            <a href="index.html">
+                <img src="../imgs/house.png" alt="">
+                <p class="first">首页</p>
+            </a>
+        </li>
+        <li>
+            <a href="renwu.html">
+                <img src="../imgs/renwu.png" alt="">
+                <p>任务</p>
+            </a>
+        </li>
+        <li>
+            <a href="yic.html">
+                <img src="../imgs/yic_1.png" alt="">
+                <p>异常</p>
+            </a>
+        </li>
+    </ul>
+</div>
+</body>
+<script src="../js/jquery-1.11.1.min.js"></script>
+<script>
+    function fn() {
+        window.location.href="yic_detail.html"
+    }
+    function fun() {
+        window.location.href="jiancha_yic_chuli.html"
+    }
+    //
+    $(document).ready(function(){
+        $(".title span").click(function(){
+            var index=$(this).index();
+            console.log(index);
+            $(".title span").removeClass("def");
+            $(this).addClass("def");
+            $('.detail').hide();
+            $('.detail:eq('+index+')').show()
+        })
+    })
+</script>
+</html>
