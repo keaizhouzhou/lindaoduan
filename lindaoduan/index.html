@@ -12,13 +12,13 @@
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/bootstrap.css">
 <link rel="stylesheet" href="../css/index.css">
-<body id="app">
+<body >
 <div class="head">
     <div class="toux" onclick="fn()">
         <img src="../imgs/toux.png" alt="">
     </div>
     <div class="title">
-        <h5>小芒果 Vicky</h5>
+        <h5 id="name"></h5>
     </div>
 </div>
 <div class="list clearfix">
@@ -118,9 +118,12 @@
         }
         fetchData(data).then(res => {
           console.log(res);
-          if (res.data.code == 0) {
+          if (res.data.code === 0) {
             this.userInfo = res.data.data;
-            sessionStorage.setItem('userId', this.userInfo.userId);
+            sessionStorage.setItem('realname', this.userInfo.realname);
+            sessionStorage.setItem('mobile', this.userInfo.mobile);
+            sessionStorage.setItem('regionName', this.userInfo.regionName);
+            $("#name").text(this.userInfo.realname)
           } else {
 
           }
