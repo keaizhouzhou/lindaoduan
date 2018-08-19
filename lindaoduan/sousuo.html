@@ -116,15 +116,15 @@
           }
         });
       },
-      jump (name) { // 调转
+      jump () { // 调转
         if (this.type == 1) { // 跳转让任务列表
-          window.location.href = "renwu.html?name="+name;
+          window.location.href = "renwu.html?name="+this.text;
         }
         else if (this.type == 2) { // 跳转企业
           // this.getCompany(this.text);
         }
         else if (this.type == 3) { // 跳转通讯录
-          window.location.href = "tongxunlu.html?name="+name;
+          window.location.href = "tongxunlu.html?name="+this.text;
           //this.getAdressBook(this.text)
         }
       },
