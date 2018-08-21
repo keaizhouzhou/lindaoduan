@@ -12,6 +12,7 @@
 	<script src="http://code.highcharts.com/modules/data.js"></script>
 	<link rel="stylesheet" href="../js/src/css/LCalendar.css">
 	<script src="../js/src/js/LCalendar.js"></script>
+	<script type="text/javascript" src="../js/fetchData.js"></script>
 
 </head>
 	<body>
@@ -56,89 +57,9 @@
 		</div>
 		<script language="JavaScript">
 			$(document).ready(function() {
-			var data = {
-				table: 'datatable'
-			};
-			var chart = {
-				type: 'column'
-			};
-			var title = {
-				text: ''
-			};
-			var yAxis = {
-				allowDecimals: false,
-				title: {
-				text: ''
-				}
-			};
-			var tooltip = {
-				formatter: function() {
-					return '<b>' + this.series.name + '</b><br/>' +
-						this.point.y + ' ' + this.point.name.toLowerCase();
-				}
-			};
-			var credits = {
-				enabled: false
-			};
-                var legend = {
-                    verticalAlign: 'top', //垂直方向位置
-                };
-			var json = {};
-			json.chart = chart;
-			json.title = title;
-			json.data = data;
-			json.yAxis = yAxis;
-			json.credits = credits;
-			json.tooltip = tooltip;
-			json.legend = legend;
-			$('#container').highcharts(json);
 
 
-			//				饼状图
-			var chart2 = {
-				plotBackgroundColor: null,
-				plotBorderWidth: null,
-				plotShadow: false
-			};
-			var title2 = {
-				text: '待处理数据统计'
-			};
-			var tooltip2 = {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-			};
-			var plotOptions2 = {
-				pie: {
-					allowPointSelect: true,
-					cursor: 'pointer',
-					dataLabels: {
-						enabled: true,
-						format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
-						style: {
-							color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-						}
-					}
-				}
-			};
-			var series2 = [{
-				type: 'pie',
-				name: 'Browser share',
-				data: [
-					['西湖区', 45.0],
-					['下城区', 26.8],
-					
-					['工书区', 56],
-					['江干区', 39],
-					['余杭区', 23]
-				]
-			}];
 
-			var json2 = {};
-			json2.chart = chart2;
-			json2.title = title2;
-			json2.tooltip = tooltip2;
-			json2.series = series2;
-			json2.plotOptions = plotOptions2;
-			$('#container2').highcharts(json2);
 			});
 		</script>
 		<table id="datatable">
@@ -153,7 +74,7 @@
 			<tbody>
 				<tr>
 					<th>西湖区</th>
-					<td>100</td>
+					<td>200</td>
 					<td>230</td>
 					<td>150</td>
 					<td>90</td>
@@ -195,7 +116,119 @@
 	function fn() {
 		window.location.href="address.html";
     }
+    function column(xData,tasksSeries) { // 柱状图
+      var data = {
+        table: 'datatable'
+      };
+      var chart = {
+        type: 'column'
+      };
+      console.log('xData',xData);
+      console.log('tasksSeries',tasksSeries)
+      var xAxis = {
+        categories:xData
+	  };
+      var  series = tasksSeries.map((item)=>{
+        return {
+          name:item.name,
+		  data:item.data
+		}
+	  });
+      var title = {
+        text: ''
+      };
+      var yAxis = {
+        allowDecimals: false,
+        title: {
+          text: ''
+        }
+      };
+      var tooltip = {
+        formatter: function() {
+          return '<b>' + this.series.name + '</b><br/>' +
+            this.point.y + ' ' + this.point.category.toLowerCase();
+        }
+      };
+      var credits = {
+        enabled: false
+      };
+      var legend = {
+        verticalAlign: 'top', //垂直方向位置
+      };
+      var json = {};
+      json.chart = chart;
+      json.title = title;
+    /*  json.data = data;
+      json.yAxis = yAxis;*/
+      json.series = series;
+      json.xAxis = xAxis;
+      json.credits = credits;
+      json.tooltip = tooltip;
+      json.legend = legend;
+      $('#container').highcharts(json);
 
+    }
+    function bar(data) {
+	  var seriseData = data.map((item)=>{
+	    return [item.name,item.value]
+	  });
+      //				饼状图
+      var chart2 = {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false
+      };
+      var title2 = {
+        text: '待处理数据统计'
+      };
+      var tooltip2 = {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+      };
+      var plotOptions2 = {
+        pie: {
+          allowPointSelect: true,
+          cursor: 'pointer',
+          dataLabels: {
+            enabled: true,
+            format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
+            style: {
+              color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+            }
+          }
+        }
+      };
+      var series2 = [{
+        type: 'pie',
+        name: 'Browser share',
+        data: seriseData
+      }];
+
+      var json2 = {};
+      json2.chart = chart2;
+      json2.title = title2;
+      json2.tooltip = tooltip2;
+      json2.series = series2;
+      json2.plotOptions = plotOptions2;
+      $('#container2').highcharts(json2);
+    } // 饼状图
+	function getData() {
+      $.ajax({
+        url: baseUrl + '/app/stat/statTask',
+        type:'POST',
+        dataType: 'json',
+        data:{
+          startTime:'2018-01-20',
+          endTime:'2018-08-20',
+          regionId:12718
+		},
+        success : function(data) {
+          if (data.code === 200) {
+            bar(data.pendingData);
+            column(data.xData,data.tasksSeries)
+          }
+        }
+      });
+    }
     var calendar = new LCalendar();
     calendar.init({
         'trigger': '#date', //标签id
@@ -210,6 +243,9 @@
         'minDate': '1900-1-1', //最小日期
         'maxDate': new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() //最大日期
     });
+    $(function () {
+      getData();
+    })
 
 </script>
 </html>

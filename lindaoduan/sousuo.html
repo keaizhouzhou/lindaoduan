@@ -51,7 +51,7 @@
         <ul class="detail" >
             <li v-for="(item,i) in taskList" @click="jump" v-if="taskList.length>0">
                 <p class="first">
-                    {{item.name}}
+                    {{type != 2?item.name:item.enterpriseName}}
                 </p>
             </li>
         </ul>
@@ -103,10 +103,10 @@
       getCompany (name) { // 公司查询
         let data = {
           data: {
-            name:name
+            enterpriseName:name
           },
           method: 'post',
-          url: '/app/task/list'
+          url: '/app/enterprise/search'
         }
         fetchData(data).then(res => {
           if (res.data.code === 200) {

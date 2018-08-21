@@ -1,4 +1,5 @@
- let fetchData = (params)=> {
+let baseUrl = 'http://47.92.7.119:8080' ;
+let fetchData = (params)=> {
     let {url = '', method = 'post', headers = {}, data = null} = params;
     url = 'http://47.92.7.119:8080' + url;
     if (!url) {return};
