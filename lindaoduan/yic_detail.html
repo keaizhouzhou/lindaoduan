@@ -9,80 +9,134 @@
 <link rel="stylesheet" href="../css/bootstrap.css">
 <link rel="stylesheet" href="../css/yic_detail.css">
 <body>
-<div class="title">
-    <p>
-        识别码：25698745635
-        <!--<span>-->
-            <!--历史检查-->
-            <!--<img src="../imgs/task_img/right.png" alt="">-->
-        <!--</span>-->
-    </p>
-</div>
-<div class="mhq clearfix">
-    <div class="box">
-        <img src="../imgs/mhq.png" alt="">
-    </div>
-    <div class="box_1">
+<div id="app">
+    <div class="title">
         <p>
-            灭火器
-            <span>
-                检查规范
+            识别码：{{params.qrCode}}
+            <span v-if='status==1||status==2' @click='linkHistory'>
+                历史检查
+                <img src="../imgs/task_img/right.png" alt="">
             </span>
         </p>
-        <p>位置：一区12幢1楼楼道 </p>
-        <p>🈢产日期：2018.01.01</p>
-        <p>过期日期：2018.01.01</p>
     </div>
+    <div class="mhq clearfix">
+        <div class="box">
+            <img :src="params.materialUrl" alt="">
+        </div>
+        <div class="box_1">
+            <p>
+                {{params.materialName}}
+                <span @click='linkGuifan'>检查规范</span>
+            </p>
+            <p>位置：{{params.location}}</p>
+            <p>生产日期：{{params.producedDate|cutTime}}</p>
+            <p>过期日期：{{params.expireDate|cutTime}}</p>
+        </div>
+    </div>
+    <div class="jcjg">
+        <p>
+            检查时间：
+            <span>{{params.checkTime}}</span>
+        </p>
+        <p>
+            检查人：
+            <span>{{params.checkUserName}}</span>
+        </p>
+        <p>
+            检查结果：
+            <span class="yic">{{params.checkResult}}</span>
+        </p>
+        <p>
+            上报上级：
+            <span>{{params.chiefName}}</span>
+        </p>
+        <p>
+            检查描述：
+            <span>{{params.description}}</span>
+        </p>
+    </div>
+
+    <div class="yuanyin" v-if='status==0'>
+        <p>
+            异常原因
+        </p>
+        <p v-for='anomaly in params.anomalys'>
+            <span>异常</span>
+            {{anomaly.descr}}
+        </p>
+    </div>
+
+    <div class="xianc clearfix">
+        <p>现场照片</p>
+        <ul>
+            <li v-for='photo in xianchangPhoto'>
+                <img :src="photo" alt="">
+            </li>
+        </ul>
+    </div>
+
+    <div class="culi" v-if='status==1||status==2' style="background-color: #FFF;padding: 10px;">
+        <p>异常处理描述</p>
+        <ul>
+            <li v-for='anomaly in params.anomalys'>
+                <p>
+                    {{anomaly.userName}}
+                    <span>{{anomaly.createTime}}</span>
+                </p>
+                <p>
+                    上报描述：{{anomaly.descr}}
+                </p>
+            </li>
+        </ul>
+    </div>
+
 </div>
-<div class="jcjg">
-    <p>
-        检查时间：
-        <span>2018.01.21  12:12:21</span>
-    </p>
-    <p>
-        检查人：
-        <span>小芒果Vicky</span>
-    </p>
-    <p>
-        检查结果：
-        <span class="yic">异常</span>
-    </p>
-    <p>
-        上报上级：
-        <span>吴宣仪</span>
-    </p>
-    <p>
-        检查描述：
-        <span>有问题</span>
-    </p>
-</div>
-<div class="yuanyin">
-    <p>
-        异常原因
-    </p>
-    <p>
-        <span>异常</span>
-        灭火器是否达到送修条件和维修期限
-    </p>
-    <p>
-        <span>异常</span>
-        灭火器是否达到报废条件和报废期限
-    </p>
-</div>
-<div class="xianc clearfix">
-    <p>现场照片</p>
-    <ul>
-        <li>
-            <img src="../imgs/xc_1.png" alt="">
-        </li>
-        <li>
-            <img src="../imgs/xc_2.png" alt="">
-        </li>
-    </ul>
-</div>
-<!--<div class="btn" style="display: block;font-size:0">-->
-    <!--<button style="font-size: 15px" onclick="btn()">立即处理</button>-->
-    <!--<button style="font-size: 15px" onclick="btn2()">上报上级</button>-->
-<!--</div>-->
 </body>
+
+<script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript" src="../js/axios.min.js"></script>
+<script type="text/javascript" src="../js/fetchData.js"></script>
+<script>
+    var myvue = new Vue({
+        el: '#app',
+        data: {
+            nodata: false,
+            status: '',
+            params: {},
+            xianchangPhoto: []
+        },
+        filters: {
+            cutTime(value){
+                return value.match(/^.+\s/)[0];
+            }
+        },
+        created(){ 
+            var status = window.location.href.match(/status=\d+/)[0].replace('status=','');
+            console.log(status);
+            this.status = status; 
+            var params = decodeURIComponent(window.location.href).match(/params=.+/)[0].replace('params=','');
+            console.log( params) ;
+            this.params = JSON.parse(params); 
+            this.xianchangPhoto = params.urls?params.urls.split(','):[];
+        },
+        methods: {
+            linkGuifan(){
+                console.log(this.params.materialTypeId);
+                window.location.href="jcgf.html?materialTypeId="+this.params.materialTypeId;
+            },
+            linkChuli(){
+                window.location.href="01_yic_chuli.html?params="+JSON.stringify(this.params);
+            },
+            linkShangbao(){
+                sessionStorage.removeItem('chiefIds');
+                window.location.href="04_shangbao.html?materialTypeId="+this.params.materialTypeId;
+            },
+            linkHistory(){
+                var url = "jcjl.html?materialId="+ this.params.materialId;
+                window.location.href = url
+            }
+        }
+    });
+</script>
 </html>
