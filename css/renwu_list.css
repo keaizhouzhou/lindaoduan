@@ -36,6 +36,17 @@ div.rwz p.first img{
     float: right;
     width: 3%;
 }
+
+div.rwz p#last{
+    padding: 10px 10% 0 10%;
+}
+div.rwz p.first span:nth-child(1){
+   float: left;
+}
+div.rwz p.first span:nth-child(2){
+   float: right;
+}
+
 div.rwz p.first span{
     float: right;
     padding: 0 0 8px 0;

@@ -18,7 +18,7 @@
     <div class="content">
         <ul class="detail" id="wwc_con">
             <li v-for='list in res'>
-                <a href="renwu_wplist.html" :href="href+encodeURIComponent(JSON.stringify(list))">
+                <a :href="href+encodeURIComponent(JSON.stringify(list))">
                     <p class="first">
                         {{list.name}}
                         <img class="dian" src="../imgs/hongd.png" alt="">
@@ -27,7 +27,7 @@
                     <p>
                         任务时间：
                         <span>{{list.startTime|cutTime}}</span>
-                        <span style="color: orange">执行中</span>
+                        <span style="color: orange">{{list.taskStatus}}</span>
                     </p>
                     <p>
                         完成进度：
@@ -40,7 +40,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="detail yiwc" style="display: none" id="ywc_con">
+<!--         <ul class="detail yiwc" style="display: none" id="ywc_con">
             <li>
                 <p class="first">
                     基础巡查任务
@@ -79,7 +79,7 @@
                     <span>西湖区骆家庄社区</span>
                 </p>
             </li>
-        </ul>
+        </ul> -->
     </div>
     <div>
         <a class="bi" href="xiafa_renwu.html">
@@ -111,11 +111,14 @@
     </div>
 </div>
 
+<style type="text/css">
+    body{padding-bottom: 78px;}
+</style>
 </body>
 <script src="../js/jquery-1.11.1.min.js"></script>
 <script>
     function fun(){
-        window.location.href="renwu_detail_chaoshi.html"
+        window.location.href="renwu_qiyelist.html"
     }
     $(document).ready(function(){
         $(".title span").click(function(){
@@ -138,7 +141,7 @@
     var myvue = new Vue({
         el: '#app',
         data: {
-            href: 'renwu_detail_chaoshi.html?params=',
+            href: 'renwu_qiyelist.html?params=',
             res: [],
             nodata: false,
             params:{
