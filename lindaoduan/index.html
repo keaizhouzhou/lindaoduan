@@ -42,7 +42,7 @@
             </a>
         </li>
         <li>
-            <a href="">
+            <a  onclick="jump()">
                 <img src="../imgs/baojing.png" alt="">
                 <p>平台报警</p>
             </a>
@@ -101,7 +101,23 @@
   function fn() {
     window.location.href = "user.html";
   }
-
+function jump() {
+    var result = {
+      client_id:'vQzpPTDRs0fi7pNGmnv4',
+      client_secret:'xVfxCsvtp2HKUGcxEQrh',
+      grant_type:'client_credentials',
+      scope:'read write'
+    }
+  $.ajax({
+    url: 'http://runyapp.s1.natapp.cc/authz/oauth/token',
+    type:'POST',
+    dataType: 'json',
+    data:result,
+    success : function(data) {
+        window.location.href="zhexian.html?access_token="+data.access_token+'&token_type='+data.token_type;
+    }
+  });
+}
   var myvue = new Vue({
     el: '#app',
     data() {
