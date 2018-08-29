@@ -139,6 +139,7 @@ function jump() {
             sessionStorage.setItem('realname', this.userInfo.realname);
             sessionStorage.setItem('mobile', this.userInfo.mobile);
             sessionStorage.setItem('regionName', this.userInfo.regionName);
+            sessionStorage.setItem("allUserinfo", JSON.stringify(res.data.data));
             $("#name").text(this.userInfo.realname)
           } else {
 

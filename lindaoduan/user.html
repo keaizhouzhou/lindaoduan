@@ -10,35 +10,31 @@
 <link rel="stylesheet" href="../css/user.css">
 <script src="../js/jquery.min.js"></script>
 <body>
-<ul>
-    <li>
-        <p>
-            姓名
-            <span id="name">
-                小芒果Vicky
-            </span>
-        </p>
-    </li>
-    <li>
-        <p>
-            电话
-            <span id="phone">
-                18888888888
-            </span>
-        </p>
-    </li>
-    <li>
-        <p>
-            地址
-            <span id="address">
-                西湖区骆家庄社区
-            </span>
-        </p>
-    </li>
-</ul>
-<button type="submit" onclick="fn()">
-    退出登陆
-</button>
+<div id="app">
+    <ul>
+        <li>
+            <p>
+                姓名
+                <span id="name">{{allUserinfo.realname}}</span>
+            </p>
+        </li>
+        <li>
+            <p>
+                电话
+                <span id="phone">{{allUserinfo.mobile}}</span>
+            </p>
+        </li>
+        <li>
+            <p>
+                地址
+                <span id="address">{{allUserinfo.regionName}}</span>
+            </p>
+        </li>
+    </ul>
+    <button type="submit" onclick="fn()">
+        退出登陆
+    </button>
+</div>
 </body>
 <script>
     function fn() {
@@ -49,5 +45,18 @@
       $("#phone").text(sessionStorage.getItem('mobile'));
       $("#address").text(sessionStorage.getItem('regionName'));
     })
+</script>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script>
+var myvue = new Vue({
+    el: '#app',
+    data: {
+        allUserinfo: '',
+    },
+    created(){
+        let allUserinfo = sessionStorage.getItem("allUserinfo")?JSON.parse(sessionStorage.getItem("allUserinfo")):[];
+        this.allUserinfo = allUserinfo;
+    }
+});
 </script>
 </html>
